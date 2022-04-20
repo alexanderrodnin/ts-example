@@ -1,8 +1,16 @@
-import {App} from './app'
+import {App} from "./app";
+import {LoggerService} from "./logger/logger.service";
+import {UserController} from "./users/users.controller";
+import {ExceptionFilter} from "./error/exception-filter";
 
-async function bootstrap() {
-    const app = new App();
-    await app.init();
+async function bootsrap() {
+    const logger = new LoggerService()
+    const app = new App(
+        logger,
+        new UserController(logger),
+        new ExceptionFilter(logger)
+    );
+    await app.init()
 }
 
-bootstrap();
+bootsrap();
